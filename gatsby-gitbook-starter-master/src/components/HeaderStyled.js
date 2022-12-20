@@ -37,35 +37,9 @@ export const UlHeader = styled.ul`
   margin: 0 !important;
   height: 58px !important;
 
-  ul {
-    display: flex !important;
-    position: relative !important;
-
-    li {
-      ul {
-        position: absolute !important;
-        background-color: #fff !important;
-        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
-        width: 173.2px !important;
-
-        li {
-          width: 100% !important;
-          margin: 0 !important;
-          border: none !important;
-          &:hover {
-            background-color: #f0f8ff;
-          }
-          ul {
-            li {
-              ul {
-                display: flex;
-                flex-direction: column !important;
-              }
-            }
-          }
-        }
-      }
-    }
+  a {
+    color: #000;
+    margin: 0 20px;
   }
 `;
 

@@ -4,7 +4,7 @@ metaTitle: 'Tài liệu hướng dẫn tích hợp API Computer Vision VietNam'
 metaDescription: 'This is the api v1 for this page'
 ---
 
-#### 16. Trích xuất thông tin đăng kiểm xe với đầu vào url ảnh
+#### 1. Trích xuất thông tin đăng kiểm xe với đầu vào url ảnh
 
 **API**:
 
@@ -39,7 +39,7 @@ print(response.json())
 
 ```
 
-#### 17. Trích xuất thông tin đăng kiểm xe với đầu vào file ảnh
+#### 2. Trích xuất thông tin đăng kiểm xe với đầu vào file ảnh
 
 **API**:
 
@@ -79,7 +79,7 @@ print(response.json())
 
 ```
 
-#### 18. Trích xuất thông tin đăng kiểm xe với đầu vào json
+#### 3. Trích xuất thông tin đăng kiểm xe với đầu vào json
 
 **API**:
 

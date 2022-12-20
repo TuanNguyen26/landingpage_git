@@ -127,7 +127,8 @@ const Header = ({ location, isDarkThemeActive, toggleActiveTheme }) => (
 
               <NavBarRight>
                 <UlHeader className={'sideBarUL'}>
-                  <Tree edges={allMdx.edges} />
+                  <Link to="/apiOne">Api v1</Link>
+                  <Link to="/apitwo">Api v2</Link>
                 </UlHeader>
 
                 <div id="navbar" className={'topnav'}>

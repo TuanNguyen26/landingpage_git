@@ -72,9 +72,9 @@ const Layout = ({ children, location }) => (
     <MDXProvider components={mdxComponents}>
       <Wrapper>
         <LeftSideBarWidth className={'hiddenMobile'}>
-          {/* <Sidebar location={location} /> */}
+          <Sidebar location={location} />
 
-          <RightSidebar location={location} />
+          {/* <RightSidebar location={location} /> */}
         </LeftSideBarWidth>
         {config.sidebar.title ? (
           <div

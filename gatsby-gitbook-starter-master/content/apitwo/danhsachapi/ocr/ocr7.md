@@ -4,7 +4,7 @@ metaTitle: 'Tài liệu hướng dẫn tích hợp API Computer Vision VietNam'
 metaDescription: 'This is the api v1 for this page'
 ---
 
-#### 28. Trích xuất thông tin hóa đơn với đầu vào url ảnh hoặc pdf
+#### 1. Trích xuất thông tin hóa đơn với đầu vào url ảnh hoặc pdf
 
 **API**:
 
@@ -39,7 +39,7 @@ print(response.json())
 
 ```
 
-#### 29. Trích xuất thông tin hóa đơn với đầu vào file ảnh hoặc file pdf
+#### 2. Trích xuất thông tin hóa đơn với đầu vào file ảnh hoặc file pdf
 
 **API**:
 
@@ -78,7 +78,7 @@ print(response.json())
 
 ```
 
-#### 30. Trích xuất thông tin hóa đơn với đầu vào json
+#### 3. Trích xuất thông tin hóa đơn với đầu vào json
 
 **API**:
 

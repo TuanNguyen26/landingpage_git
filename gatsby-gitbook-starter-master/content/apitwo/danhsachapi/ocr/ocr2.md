@@ -4,7 +4,7 @@ metaTitle: 'Tài liệu hướng dẫn tích hợp API Computer Vision VietNam'
 metaDescription: 'This is the api v1 for this page'
 ---
 
-#### 10. Trích xuất thông tin hai mặt đăng ký xe với đầu vào url ảnh
+#### 1. Trích xuất thông tin hai mặt đăng ký xe với đầu vào url ảnh
 
 **API**:
 
@@ -40,7 +40,7 @@ print(response.json())
 
 ```
 
-#### 11. Trích xuất thông tin hai mặt đăng ký xe với đầu vào file ảnh
+#### 2. Trích xuất thông tin hai mặt đăng ký xe với đầu vào file ảnh
 
 **API**:
 
@@ -82,7 +82,7 @@ print(response.json())
 
 ```
 
-#### 12. Trích xuất thông tin hai mặt đăng ký xe với đầu json
+#### 3. Trích xuất thông tin hai mặt đăng ký xe với đầu json
 
 **API**:
 
@@ -131,7 +131,7 @@ response = requests.post(
 print(response.json())
 ```
 
-#### 13. Trích xuất thông tin một mặt bất kì của đăng ký xe với đầu vào url ảnh
+#### 4. Trích xuất thông tin một mặt bất kì của đăng ký xe với đầu vào url ảnh
 
 **API**:
 
@@ -166,7 +166,7 @@ print(response.json())
 
 ```
 
-#### 14. Trích xuất thông tin một mặt bất kì của đăng ký xe với đầu vào file ảnh
+#### 5. Trích xuất thông tin một mặt bất kì của đăng ký xe với đầu vào file ảnh
 
 **API**:
 
@@ -206,7 +206,7 @@ print(response.json())
 
 ```
 
-#### 15. Trích xuất thông tin một mặt bất kì của đăng ký xe với đầu vào json
+#### 6. Trích xuất thông tin một mặt bất kì của đăng ký xe với đầu vào json
 
 **API**:
 

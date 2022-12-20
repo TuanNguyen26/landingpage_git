@@ -117,7 +117,7 @@ const SidebarLayout = ({ location }) => (
           ) : null}
           <ul className={'sideBarUL'}>
             <Tree edges={allMdx.edges} />
-            {config.sidebar.links && config.sidebar.links.length > 0 && <Divider />}
+            {/* {config.sidebar.links && config.sidebar.links.length > 0 && <Divider />}
             {config.sidebar.links.map((link, key) => {
               if (link.link !== '' && link.text !== '') {
                 return (
@@ -127,7 +127,7 @@ const SidebarLayout = ({ location }) => (
                   </ListItem>
                 );
               }
-            })}
+            })} */}
           </ul>
         </Sidebar>
       );

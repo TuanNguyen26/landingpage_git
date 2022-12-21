@@ -1,24 +1,45 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 import { StaticQuery, graphql } from 'gatsby';
+import GitHubButton from 'react-github-btn';
 import Link from './link';
-
+import Loadable from 'react-loadable';
 import config from '../../config.js';
+import LoadingProvider from './mdxComponents/loading';
 import { DarkModeSwitch } from './DarkModeSwitch';
+import { UlHeader, NavBarWrapper, NavBarDefault, NavBarHeader } from './HeaderStyled';
 
-import {
-  NavBarWrapper,
-  NavBarDefault,
-  HeaderNav,
-  NavBarHeader,
-  NavBarRight,
-  UlHeader,
-  LiHeader,
-} from './HeaderStyled';
+const help = require('./images/help.svg');
 
 const isSearchEnabled = config.header.search && config.header.search.enabled ? true : false;
 
 let searchIndices = [];
+
+if (isSearchEnabled && config.header.search.indexName) {
+  searchIndices.push({
+    name: `${config.header.search.indexName}`,
+    title: `Results`,
+    hitComp: `PageHit`,
+  });
+}
+
+import Sidebar from './sidebar';
+
+const LoadableComponent = Loadable({
+  loader: () => import('./search/index'),
+  loading: LoadingProvider,
+});
+
+function myFunction() {
+  var x = document.getElementById('navbar');
+
+  if (x.className === 'topnav') {
+    x.className += ' responsive';
+  } else {
+    x.className = 'topnav';
+  }
+}
+
 const StyledBgDiv = styled('div')`
   height: 60px;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
@@ -32,91 +53,49 @@ const StyledBgDiv = styled('div')`
   }
 `;
 
-const Divider = styled((props) => (
-  <li {...props}>
-    <hr />
-  </li>
-))`
-  list-style: none;
-  padding: 0.5rem 0;
-
-  hr {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    border-bottom: 1px solid #ede7f3;
-  }
-`;
-const ListItem = styled(({ className, active, level, ...props }) => {
-  return (
-    <LiHeader className={className}>
-      <a href={props.to} {...props} target="_blank" rel="noopener noreferrer">
-        {props.children}
-      </a>
-    </LiHeader>
-  );
-})`
-  list-style: none;
-
-  a {
-    color: #5c6975;
-    text-decoration: none;
-    font-weight: ${({ level }) => (level === 0 ? 700 : 400)};
-    padding: 0.45rem 0 0.45rem ${(props) => 2 + (props.level || 0) * 1}rem;
-
-    position: relative;
-
-    &:hover {
-      color: #1ed3c6 !important;
-    }
-
-    ${(props) =>
-      props.active &&
-      `
-      // color: #663399;
-      border-color: rgb(230,236,241) !important;
-      border-style: solid none solid solid;
-      border-width: 1px 0px 1px 1px;
-      background-color: #fff;
-    `} // external link icon
-    svg {
-      float: right;
-      margin-right: 1rem;
-    }
-  }
-`;
-if (isSearchEnabled && config.header.search.indexName) {
-  searchIndices.push({
-    name: `${config.header.search.indexName}`,
-    title: `Results`,
-    hitComp: `PageHit`,
-  });
-}
-
-import Tree from './sidebar/tree';
-import { ExternalLink } from 'react-feather';
-
 const Header = ({ location, isDarkThemeActive, toggleActiveTheme }) => (
   <StaticQuery
     query={graphql`
-      query {
-        allMdx {
-          edges {
-            node {
-              fields {
-                slug
-                title
-              }
+      query headerTitleQuery {
+        site {
+          siteMetadata {
+            headerTitle
+            githubUrl
+            helpUrl
+            tweetText
+            logo {
+              link
+              image
+            }
+            headerLinks {
+              link
+              text
             }
           }
         }
       }
     `}
-    render={({ allMdx }) => {
+    render={(data) => {
+      const logoImg = require('./images/logo.svg');
+
+      const twitter = require('./images/twitter.svg');
+
+      const discordBrandsBlock = require('./images/discord-brands-block.svg');
+
+      const twitterBrandsBlock = require('./images/twitter-brands-block.svg');
+
+      const {
+        site: {
+          siteMetadata: { headerTitle, githubUrl, helpUrl, tweetText, logo, headerLinks },
+        },
+      } = data;
+
+      const finalLogoLink = logo.link !== '' ? logo.link : 'https://hasura.io/';
+
       return (
         <NavBarWrapper>
-          <NavBarDefault>
-            <NavBarHeader>
+          <div className="navBarDefault">
+            <div className={'navBarHeader'}>
               <Link to="/" className={'navBarBrand'}>
                 <img
                   className={'img-responsive displayInline'}
@@ -125,25 +104,50 @@ const Header = ({ location, isDarkThemeActive, toggleActiveTheme }) => (
                 />
               </Link>
 
-              <NavBarRight>
-                <UlHeader className={'sideBarUL'}>
-                  <Link to="/apiOne">Api v1</Link>
-                  <Link to="/apitwo">Api v2</Link>
-                </UlHeader>
+              <UlHeader className={'sideBarUL'}>
+                <Link to="/">Trang chủ</Link>
+                <Link to="/apib">Api v1</Link>
+                <Link to="/apia">Api v2</Link>
+              </UlHeader>
 
-                <div id="navbar" className={'topnav'}>
-                  <ul className={'navBarUL navBarNav navBarULRight'}>
-                    <li>
-                      <DarkModeSwitch
-                        isDarkThemeActive={isDarkThemeActive}
-                        toggleActiveTheme={toggleActiveTheme}
-                      />
-                    </li>
-                  </ul>
+              <StyledBgDiv isDarkThemeActive={isDarkThemeActive}>
+                <div className={'navBarDefault removePadd'}>
+                  <span
+                    onClick={myFunction}
+                    className={'navBarToggle'}
+                    onKeyDown={myFunction}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <span className={'iconBar'}></span>
+                    <span className={'iconBar'}></span>
+                    <span className={'iconBar'}></span>
+                  </span>
                 </div>
-              </NavBarRight>
-            </NavBarHeader>
-          </NavBarDefault>
+              </StyledBgDiv>
+            </div>
+
+            {isSearchEnabled ? (
+              <div className={'searchWrapper'}>
+                <LoadableComponent collapse={true} indices={searchIndices} />
+              </div>
+            ) : null}
+
+            <div id="navbar" className={'topnav'}>
+              <div className={'visibleMobile'}>
+                <Sidebar location={location} />
+                <hr />
+              </div>
+              <ul className={'navBarUL navBarNav navBarULRight'}>
+                <li>
+                  <DarkModeSwitch
+                    isDarkThemeActive={isDarkThemeActive}
+                    toggleActiveTheme={toggleActiveTheme}
+                  />
+                </li>
+              </ul>
+            </div>
+          </div>
         </NavBarWrapper>
       );
     }}

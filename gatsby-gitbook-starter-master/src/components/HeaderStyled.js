@@ -20,6 +20,32 @@ export const NavBarHeader = styled.div`
   background-color: #fff;
   border-bottom: 1px solid #ccc;
   padding: 0 10px;
+
+  .topnav {
+    position: absolute !important;
+    top: 45.6px;
+
+    border-spacing: 0;
+    display: block;
+    border-collapse: collapse;
+    overflow-y: scroll;
+    background-color: #fff;
+    z-index: 20 !important;
+    height: 100vh !important;
+    right: 0;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+  }
+
+  .topnav::-webkit-scrollbar {
+    width: 0 !important;
+    display: none;
+  }
+
+  .css-nnusmx-Sidebar {
+    width: 300px;
+    z-index: 30 !important;
+  }
 `;
 
 export const NavBarRight = styled.div`
@@ -38,12 +64,30 @@ export const UlHeader = styled.ul`
   height: 58px !important;
 
   a {
-    color: #000;
+    color: #fff;
     margin: 0 20px;
+  }
+
+  @media only screen and (max-width: 767px) {
+    display: none;
   }
 `;
 
 export const LiHeader = styled.li`
   display: flex;
   margin: 0 10px;
+`;
+
+export const StyledBgDiv = styled.div`
+  left: -40px;
+  height: 60px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  background-color: #f8f8f8;
+  position: relative;
+  display: none;
+  background: ${(props) => (props.isDarkThemeActive ? '#001932' : undefined)};
+
+  @media (max-width: 767px) {
+    display: block;
+  }
 `;

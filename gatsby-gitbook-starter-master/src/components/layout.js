@@ -36,6 +36,21 @@ const Content = styled('main')`
   padding-top: 3rem;
   background: ${({ theme }) => theme.colors.background};
 
+  table {
+    width: 100%;
+    border-spacing: 0;
+    display: block;
+    border-collapse: collapse;
+    overflow: auto;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+  }
+
+  .table::-webkit-scrollbar {
+    width: 0 !important;
+    display: none;
+  }
+
   table tr {
     background: ${({ theme }) => theme.colors.background};
   }
@@ -44,22 +59,40 @@ const Content = styled('main')`
     padding-left: 0;
     margin: 0 10px;
     padding-top: 3rem;
+    max-width: 28rem;
+
+    .css-18pcbyo-MaxWidth {
+      width: 100%;
+    }
   }
 `;
 
 const MaxWidth = styled('div')`
-  @media only screen and (max-width: 50rem) {
+  @media only screen and (max-width: 20rem) {
     width: 100%;
     position: relative;
   }
 `;
 
 const LeftSideBarWidth = styled('div')`
-  width: 298px;
-  .css-9rns0i-Sidebar {
-    position: fixed !important;
-    width: 298px;
-    margin-top: 80px;
+  width: 220px;
+
+  .css-nnusmx-Sidebar {
+    overflow: auto;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+  }
+  .css-nnusmx-Sidebar::-webkit-scrollbar {
+    width: 0 !important;
+    display: none;
+  }
+
+  @media only screen and (max-width: 1023px) {
+    width: 190px;
+  }
+
+  .sideBarUL {
+    margin-top: 0 !important;
   }
 `;
 
@@ -73,8 +106,6 @@ const Layout = ({ children, location }) => (
       <Wrapper>
         <LeftSideBarWidth className={'hiddenMobile'}>
           <Sidebar location={location} />
-
-          {/* <RightSidebar location={location} /> */}
         </LeftSideBarWidth>
         {config.sidebar.title ? (
           <div
@@ -85,10 +116,7 @@ const Layout = ({ children, location }) => (
         <Content>
           <MaxWidth>{children}</MaxWidth>
         </Content>
-
         <RightSideBarWidth className={'hiddenMobile'}>
-          {/* <Sidebar location={location} /> */}
-
           <RightSidebar location={location} />
         </RightSideBarWidth>
       </Wrapper>

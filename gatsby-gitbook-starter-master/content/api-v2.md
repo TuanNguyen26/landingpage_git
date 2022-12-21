@@ -4,7 +4,7 @@ metaTitle: 'Tài liệu hướng dẫn tích hợp API Computer Vision VietNam'
 metaDescription: 'This is the api v1 for this page'
 ---
 
-## Cơ chế xác thực
+# Cơ chế xác thực
 
 Chúng tôi sử dụng <span style="color: red; font-size: 14px "> Basic Authentication </span> để cấp quyền truy cập vào API.
 
@@ -30,7 +30,7 @@ Khi sử dụng dịch vụ của CVS, việc tính phí hay không dựa vào m
 - <span style="color: red; font-size: 14px ">errorCode </span> = 0: Request thành công, có tính phí
 - <span style="color: red; font-size: 14px ">errorCode </span> là giá trị khác: không tính phí
 
-## Cách tính phí
+# Cách tính phí
 
 Khi sử dụng dịch vụ của CVS, việc tính phí hay không dựa vào mã errorCode trả về. Các trường hợp tính phí khi sử dụng dịch vụ:
 

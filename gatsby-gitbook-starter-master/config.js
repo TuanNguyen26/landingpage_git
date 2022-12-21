@@ -38,17 +38,16 @@ const config = {
   },
   sidebar: {
     forcedNavOrder: [
-      '/introduction', // add trailing slash if enabled above
-      '/codeblock',
+      '/apib',
+      '/apia', // add trailing slash if enabled above
     ],
     collapsedNav: [
-      '/codeblock', // add trailing slash if enabled above
+      '/trang chủ', // add trailing slash if enabled above
     ],
     links: [{ text: 'Hasura', link: 'https://hasura.io' }],
     frontLine: false,
     ignoreIndex: true,
-    title:
-      "<a href='https://hasura.io/learn/'>graphql </a><div class='greenCircle'></div><a href='https://hasura.io/learn/graphql/react/introduction/'>react</a>",
+    title: "<a href='/'>Danh mục</a>",
   },
   siteMetadata: {
     title: 'Gatsby Gitbook Boilerplate | Hasura',

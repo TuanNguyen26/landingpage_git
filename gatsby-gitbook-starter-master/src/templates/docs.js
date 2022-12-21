@@ -50,7 +50,6 @@ export default class MDXRuntimeTest extends Component {
         },
         { items: [] }
       );
-
     const nav = forcedNavOrder
       .reduce((acc, cur) => {
         return acc.concat(navItems[cur]);

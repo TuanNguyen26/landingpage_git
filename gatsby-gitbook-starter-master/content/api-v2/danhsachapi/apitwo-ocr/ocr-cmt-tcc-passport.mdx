@@ -1,7 +1,7 @@
 ---
 title: 'CMT/TCC/Passport'
-metaTitle: 'Syntax Highlighting is the meta title tag for this page'
-metaDescription: 'This is the meta description for this page'
+metaTitle: 'Tài liệu hướng dẫn tích hợp API Computer Vision VietNam'
+metaDescription: 'This is the api v1 for this page'
 ---
 
 #### 1. Trích xuất thông tin hai mặt chứng minh thư thẻ căn cước với đầu vào url ảnh
@@ -371,3 +371,260 @@ response = requests.post(
     json={'img' : encode_cmt})
 print(response.json())
 ```
+
+#### 10. Thông tin trả về
+
+Phản hồi sẽ là một JSON với định dạng sau:
+
+```javascript
+{
+  "data": [xxxx],
+  "errorCode": string, // mã lỗi
+  "errorMessage": string // thông báo lỗi
+}
+```
+
+Trong trường hợp nhận dạng 1 giấy tờ tùy thân bất kì, trường data sẽ có gồm các thông tin sau:
+
+```javascript
+{
+  "info": [xxxx],
+  "valid": [xxxx],
+  "invalidMessage": [xxxx],
+  "type": [xxxx]
+}
+```
+
+Chú ý: Trường hợp trích xuất thông tin từ file PDF, nhiều loại giấy tờ trong một ảnh, bằng lái xe, đăng ký xe, đăng kiểm xe, báo giá xe, giấy khai sinh không có trường valid và trường invalidMessage.
+
+Trong trường hợp trích xuất thông tin từ file PDF hoặc nhiều loại giấy tờ trong một ảnh, trường data sẽ là 1 list các phần tử có các trường ở trên.
+
+Trong trường hợp trích xuất thông tin từ văn bản scan, trường data sẽ là một list, mỗi phần tử trong list sẽ tương ứng với thông tin của 1 trang trong file pdf hoặc của 1 ảnh. Mỗi phần tử trong list này được biểu thị như sau:
+
+```javascript
+[
+  // list các block trong cùng một trang
+  [
+    // list các line trong cùng một block
+    [
+      // list các text trong cùng một line (*)
+    ],
+  ],
+];
+```
+
+Mỗi phần tử text (\*) bao gồm các trường sau:
+
+```javascript
+{
+  "text": string, // nội dung của text
+  "confidence": float, // độ tin cậy của text
+  "box": {
+    "left": int, // tọa độ bên trái của text
+    "right": int, // tọa độ bên phải của text
+    "top": int, // tọa độ bên trên của text
+    "bottom": int // tọa độ bên dưới của text
+  }
+}
+```
+
+Trong trường hợp trích xuất thông tin dạng bảng, trường data sẽ là một list, mỗi phần tử trong list sẽ tương ứng với thông tin của một bảng. Mỗi phần tử gồm các trường:
+
+- image: ảnh bảng đã được cắt và căn chỉnh
+- info: thông tin bảng, trường này là một list, mỗi phần tử trong list tương ứng thông tin của một hàng
+
+Ví dụ:
+
+```javascript
+{
+  "data": [
+    {
+      "info": [
+        ["3", "Liti", "Li"],
+        ["4", "Beri", "Be"],
+        ["5", "Bo", "B"]
+      ],
+      "image": "<base64_img1>"
+    },
+    {
+      "info": [
+        ["Column1", "column2"],
+        ["1", "2"],
+        ["1", "1"]
+      ],
+      "image": "<base64_img2>"
+    }
+  ]
+}
+```
+
+type: Loại giấy tờ tùy thân được trích xuất thông tin.
+
+- 9_id_card_front: ứng với mặt trước của chứng minh nhân dân.
+- 12_id_card_front: ứng với mặt trước thẻ căn cước công dân.
+- chip_id_card_front: ứng với mặt trước thẻ căn cước công dân gán chip.
+- 9_id_card_back: ứng với mặt sau của chứng minh nhân dân.
+- 12_id_card_back: ứng với mặt sau của thẻ căn cước.
+- chip_id_card_back: ứng với mặt sau thẻ căn cước công dân gán chip.
+- driving_license: ứng với bằng lái xe.
+- passport: ứng với loại giấy tờ là hộ chiếu.
+- vehicle_registration_front: ứng với mặt trước của giấy đăng ký xe.
+- vehicle_registration_back: ứng với mặt sau của giấy đăng ký xe.
+- picertificate: ứng với đăng kiểm xe.
+
+info: Bao gồm các thông tin được trích xuất từ ảnh đầu vào có giấy tờ tùy thân, với mỗi loại giấy tờ tùy thân thì sẽ có những thông tin trả về khác nhau.
+
+Mặt trước chứng minh nhân dân:
+
+- id: số chứng minh thư.
+- name: họ và tên.
+- dob: ngày sinh.
+- hometown: quê quán.
+- address: thường trú.
+- address_town_code: mã tỉnh/thành phố trong địa chỉ thường trú.
+- address_district_code: mã quận/huyện trong địa chỉ thường trú.
+- address_ward_code: mã phường/xã trong địa chỉ thường trú.
+- hometown_town_code: mã tỉnh/thành phố trong quê quán.
+- hometown_district_code: mã quận/huyện trong quê quán.
+- hometown_ward_code: mã phường/xã trong quê quán.
+- address_town: tỉnh/thành phố trong địa chỉ thường trú.
+- address_district: quận/huyện trong địa chỉ thường trú.
+- address_ward: phường/xã trong địa chỉ thường trú.
+- hometown_town: tỉnh/thành phố trong quê quán.
+- hometown_district: quận/huyện trong quê quán.
+- hometown_ward: phường/xã trong quê quán.
+- id_confidence: độ tin cậy của thông tin trích xuất số thẻ.
+- name_confidence: độ tin cậy của thông tin trích xuất họ và tên.
+- dob_confidence: độ tin cậy của thông tin trích xuất ngày sinh.
+- hometown_confidence: độ tin cậy của thông tin trích xuất quê quán.
+- address_confidence: độ tin cậy của thông tin trích xuất thường trú.
+
+Mặt trước thẻ căn cước công dân:
+
+- id: số thẻ.
+- name: họ và tên.
+- dob: ngày sinh.
+- hometown: quê quán
+- gender: giới tính.
+- due_date: ngày hết hạn.
+- nationality: quốc tịch.
+- ethnicity: dân tộc.
+- address: thường trú.
+- address_town_code: mã tỉnh/thành phố trong địa chỉ thường trú.
+- address_district_code: mã quận/huyện trong địa chỉ thường trú.
+- address_ward_code: mã phường/xã trong địa chỉ thường trú.
+- hometown_town_code: mã tỉnh/thành phố trong quê quán.
+- hometown_district_code: mã quận/huyện trong quê quán.
+- hometown_ward_code: mã phường/xã trong quê quán.
+- address_town: tỉnh/thành phố trong địa chỉ thường trú.
+- address_district: quận/huyện trong địa chỉ thường trú.
+- address_ward: phường/xã trong địa chỉ thường trú.
+- hometown_town: tỉnh/thành phố trong quê quán.
+- hometown_district: quận/huyện trong quê quán.
+- hometown_ward: phường/xã trong quê quán.
+- image: ảnh đã cắt ra và căn chỉnh của giấy tờ.
+- id_confidence: độ tin cậy của thông tin trích xuất số thẻ.
+- name_confidence: độ tin cậy của thông tin trích xuất họ và tên.
+- dob_confidence: độ tin cậy của thông tin trích xuất ngày sinh.
+- hometown_confidence: độ tin cậy của thông tin trích xuất quê quán.
+- gender_confidence: độ tin cậy của thông tin trích xuất giới tính.
+- due_date_confidence: độ tin cậy của thông tin trích xuất ngày hết hạn.
+- nationality_confidence: độ tin cậy của thông tin trích xuất quốc tịch.
+- ethnicity_confidence: độ tin cậy của thông tin trích xuất dân tộc.
+- address_confidence: độ tin cậy của thông tin trích xuất thường trú.
+
+Mặt trước thẻ căn cước công dân gán chip:
+
+- id: số thẻ.
+- name: họ và tên.
+- dob: ngày sinh.
+- hometown: quê quán
+- gender: giới tính.
+- due_date: ngày hết hạn.
+- nationality: quốc tịch.
+- address: thường trú.
+- address_town_code: mã tỉnh/thành phố trong địa chỉ thường trú.
+- address_district_code: mã quận/huyện trong địa chỉ thường trú.
+- address_ward_code: mã phường/xã trong địa chỉ thường trú.
+- hometown_town_code: mã tỉnh/thành phố trong quê quán.
+- hometown_district_code: mã quận/huyện trong quê quán.
+- hometown_ward_code: mã phường/xã trong quê quán.
+- address_town: tỉnh/thành phố trong địa chỉ thường trú.
+- address_district: quận/huyện trong địa chỉ thường trú.
+- address_ward: phường/xã trong địa chỉ thường trú.
+- hometown_town: tỉnh/thành phố trong quê quán.
+- hometown_district: quận/huyện trong quê quán.
+- hometown_ward: phường/xã trong quê quán.
+- image: ảnh đã cắt ra và căn chỉnh của giấy tờ.
+
+Mặt sau chứng minh nhân dân:
+
+- ethnicity: dân tộc.
+- issue_date: ngày cấp.
+- religious: tôn giáo.
+- issued_at: nơi cấp
+- image: ảnh đã cắt ra và căn chỉnh của giấy tờ.
+- issue_date_confidence: độ tin cậy của thông tin trích xuất ngày cấp.
+- issued_at_confidence: độ tin cậy của thông tin trích xuất nơi cấp.
+- religious_confidence: độ tin cậy của thông tin trích xuất tôn giáo.
+- ethnicity_confidence: độ tin cậy của thông tin trích xuất dân tộc.
+
+Mặt sau thẻ căn cước công dân:
+
+- issue_date: ngày cấp.
+- issued_at: nơi cấp.
+- image: ảnh đã cắt ra và căn chỉnh của giấy tờ.
+- issue_date_confidence: độ tin cậy của thông tin trích xuất ngày cấp.
+- issued_at_confidence: độ tin cậy của thông tin trích xuất nơi cấp.
+
+Mặt sau thẻ căn cước công dân gán chip:
+
+- issue_date: ngày cấp.
+- issued_at: nơi cấp.
+- country: quốc gia.
+- document_number: id mặt sau.
+- person_number: id mặt trước.
+- dob: ngày sinh.
+- gender: giới tính.
+- due_date: ngày hết hạn.
+- nationality: quốc tịch.
+- sur_name: họ.
+- given_name: tên.
+- image: ảnh đã cắt ra và căn chỉnh của giấy tờ.
+
+Passport:
+
+- id: passport id.
+- sur_name: họ.
+- given_name: tên.
+- dob: ngày sinh.
+- gender: giới tính.
+- country: quốc gia.
+- nationality : quốc tịch.
+- due_date: ngày hết hạn.
+- person_number: mã số công dân.
+- image: ảnh passport.
+- confidence: độ tin cậy của thông tin phát hiện được trong passport.
+
+Bảng mã lỗi:
+
+| Mã lỗi | Message                            | Mô tả                                                                |
+| ------ | ---------------------------------- | -------------------------------------------------------------------- |
+| 0      | Success                            | Trích xuất thông tin thành công                                      |
+| 1      | The photo does not contain content | Ảnh đầu vào không có giấy tờ tùy thân cần trích xuất                 |
+| 2      | Url is unavailable                 | Download ảnh bị lỗi khi dùng GET                                     |
+| 3      | Incorrect image format             | Upload ảnh bị lỗi khi dùng POST                                      |
+| 4      | Out of requests                    | Hết số lượng request                                                 |
+| 5      | Incorrect Api_key or api_secret    | Khi api_key hoặc api_secret sai                                      |
+| 6      | ncorrect format type               | Loại format khai báo trong format_type không đúng với ảnh truyền vào |
+
+Bảng mã cảnh báo:
+
+| Mã lỗi | Message                                                         | Mô tả                                             |
+| ------ | --------------------------------------------------------------- | ------------------------------------------------- |
+| 0      | uccessful                                                       | Thành công                                        |
+| 1      | Photo contains sign of being taken through an electronic screen | Ảnh giấy tờ tùy thân có dấu hiệu giả mạo          |
+| 2      | The picture is a photocopy version of the id card               | Ảnh giấy tờ tùy thân là bản photocopy             |
+| 3      | The id field on the document is incorrectly formatted           | Trường id trên giấy tờ tùy thân không đúng format |
+| 4      | The mrzcode on the passport is incorrectly formatted            | MRZ code trên passport không đúng format          |
+| 5      | The id card's corner has been clipped                           | Giấy tờ tùy thân bị cắt góc                       |
